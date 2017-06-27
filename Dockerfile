@@ -21,7 +21,7 @@ RUN yum install wget -y \
 #映射端口
 EXPOSE 80 3306 6379
 VOLUME ['/data/httpd']
-CMD ["/etc/init.d/php-fpm5 start && /etc/init.d/nginx start"]
+CMD ["/sbin/init"]
 
 # docker run -d -p 80:80 -p 3306:3306 -p 6379:6379 --name bbc -v /Users/ric/git/docker-bbc/app/src/:/data/httpd xierikai/bbcphp56 /sbin/init
 # sudo docker build -t xierikai/bbcphp56 .
