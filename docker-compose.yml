@@ -7,18 +7,6 @@ services:
       volumes:
         - ./code:/data/httpd
 
-### 应用工具 ###########################
-
-    workspace:
-      image: registry.cn-shenzhen.aliyuncs.com/wsp/op:workspace
-      volumes_from:
-        - applications
-      ports:
-        - "22:22"
-      tty: true
-      networks:
-        - frontend
-
 ### Nginx Server Container ##################################
 
     nginx:
