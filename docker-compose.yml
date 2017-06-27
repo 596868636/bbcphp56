@@ -1,0 +1,65 @@
+version: '2'
+services:
+### 程序数据 #############################
+
+    applications:
+      image: registry.cn-shenzhen.aliyuncs.com/wsp/op:tianontrue
+      volumes:
+        - ./code:/data/httpd
+
+### 应用工具 ###########################
+
+    workspace:
+      image: registry.cn-shenzhen.aliyuncs.com/wsp/op:workspace
+      volumes_from:
+        - applications
+      ports:
+        - "22:22"
+      tty: true
+      networks:
+        - frontend
+
+### Nginx Server Container ##################################
+
+    nginx:
+      image: registry.cn-shenzhen.aliyuncs.com/onex/b2b2c
+      volumes_from:
+        - applications
+      networks:
+        - frontend
+      environment:
+        - VIRTUAL_HOST=bbc.com
+
+
+### MySQL Container #########################################
+
+    mysql:
+      image: registry.cn-shenzhen.aliyuncs.com/wsp/op:mysql
+      environment:
+        - MYSQL_DATABASE=bbc
+        - MYSQL_USER=bbc
+        - MYSQL_PASSWORD=bbc
+        - MYSQL_ROOT_PASSWORD=bbc
+      volumes:
+        - ./data/mysql:/var/lib/mysql
+      ports:
+        - "3307:3306"
+      networks:
+        - frontend
+
+### Redis Container #########################################
+
+    redis:
+      image: registry.cn-shenzhen.aliyuncs.com/wsp/op:redis
+      volumes:
+        - ./data/redis:/data
+      ports:
+        - "6380:6379"
+      networks:
+        - frontend
+
+### Networks Setup ############################################
+
+networks:
+  frontend:
+    driver: "bridge"
