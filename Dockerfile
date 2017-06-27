@@ -19,7 +19,7 @@ RUN yum install wget -y \
     && chkconfig nginx on && chkconfig php-fpm56 on && chkconfig crond on \
     && yum clean all -y
 #映射端口
-EXPOSE 80 3306 6379
+EXPOSE 80
 VOLUME ['/data/httpd']
 CMD ["/sbin/init"]
 
